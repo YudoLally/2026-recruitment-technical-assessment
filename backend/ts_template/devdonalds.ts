@@ -58,7 +58,6 @@ const parse_handwriting = (recipeName: string): string | null => {
 // Endpoint that adds a CookbookEntry to your magical cookbook
 app.post("/entry", (req:Request, res:Response) => {
   const input = req.body as cookbookEntry;
-  console.log("calling routeMEOWMEOWMEOW");
   const result = createEntry(input)
   if (result == false) {
     return res.status(400).send();
@@ -67,21 +66,17 @@ app.post("/entry", (req:Request, res:Response) => {
 });
 
 function createEntry(entry: cookbookEntry): Boolean {
-  console.log("calling functionMEOWMEOWMEOW");
   if (entry.type !== "recipe" && entry.type !== "ingredient") {
-    console.log("fail1");
     return false;
   }
 
   if (cookbook.some(e => e.name === entry.name)) {
-    console.log("fail2");
     return false;
   }
 
   if (entry.type === "ingredient") {
     const entryIngred = entry as ingredient;
     if (entryIngred.cookTime === undefined || entryIngred.cookTime < 0) {
-      console.log("fail3");
       return false;
     }
   }
@@ -92,15 +87,13 @@ function createEntry(entry: cookbookEntry): Boolean {
       const names = entryRecipe.requiredItems.map(reqItem => reqItem.name);
 
       if (new Set(names).size !== names.length) {
-        console.log("fail4");
         return false;
       }
     }
   }
 
   cookbook.push(entry);
-  console.log("SUCCESSFULLY ADDED");
-  console.log(cookbook);
+  
   return true;
 } 
 
